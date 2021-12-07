@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>index - node.js</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <style>
+      .items-list li {margin-bottom: 16px;}
+      .items-list li span {display: inline-block; padding: 0 8px; border-radius: 8px; font-size: 12px; line-height: 18px; background-color: #e3e3e3; color: #333;}
+    </style>
+
+</head>
+
+<body id="page-top">
+
+   <h1>Index</h1>
+
+   <ul class="items-list">
+     <li id="items-1">
+       Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+       <span data-stock="0"></span>
+     </li>
+
+     <li id="items-2">
+      Cumque tenetur neque molestias, officiis est beatae
+      <span data-stock="10"></span>
+     </li>
+
+    <li id="items-3">
+      officiis est beatae possimus veritatis dolor ducimus mollitia
+      <span data-stock="0"></span>
+    </li>
+
+    <li id="items-4">
+      In quae inventore quas velit quidem!
+      <span data-stock="3"></span>
+    </li>
+   </ul>
+
+   <div id="looper"></div>
+
+
+   <div id="mlb-section"></div>
+
+   <script>
+    'use strict'
+
+    let itemStockVal = document.querySelectorAll('.items-list li span[data-stock="0"]');
+    console.log(itemStockVal);//배열
+    for (let i = 0; i < itemStockVal.length; i++) {
+      itemStockVal[i].parentElement.classList.add("red");
+      itemStockVal[i].textContent = 'Out of stock';
+    }
+
+    //
+    const login = true;
+    login && console.log('Login');
+    login || console.log('Logout');
+    login ? console.log('Login') : console.log('Logout');
+
+    //
+    let course = ['국어','수학','영어'];
+
+    (course === 0)
+      ? console.log('Your do not choice courses')
+      : console.log(`You can choice course is ${course}`)
+
+    /*
+    * Equality
+    */
+    const stringFive = '5';
+    const numberFive = 5;
+    //loose equality, with type conversion
+    console.log(stringFive == numberFive);//true
+    console.log(stringFive != numberFive);//false
+    //stric equality, no type conversion
+    console.log(stringFive === numberFive);//false
+    console.log(stringFive !== numberFive);//true
+
+    //onject equality by reference
+    const jiwoo1 = {name: 'jiwoo'};
+    const jiwoo2 = {name: 'jiwoo'};
+    const jiwoo3 = jiwoo1;
+
+    console.log(jiwoo1 == jiwoo2);//false
+    console.log(jiwoo1 === jiwoo2);//false
+    console.log(jiwoo1 === jiwoo3);//true
+
+    console.log(0 == false);//true
+    console.log(0 === false);//false
+    console.log('' == false);//true
+    console.log('' === false);//false
+    console.log(null == undefined);//true
+    console.log(null === undefined);//false
+
+
+    /*
+    * Conditional operator: if
+    * if, else if, else
+    */
+    const name = 'jiwoo';
+
+    if (name === 'jintae') {
+      console.log('Welcome, Jintae');
+    } else if (name === 'jiwoo') {
+      console.log('Welcome, Jiwoo');
+    } else {
+      console.log('Unknown');
+    };
+
+    //ternary operator
+    name === 'jiwoo' ? console.log('Welcome, jiwoo') : console.log('whos that?');//true
+
+    name === 'jiwoo' && console.log('Welcome, jiwoo');//true 일 경우만 값 반환
+    name === 'Jintae' || console.log('Welcome, Jintae');//false 일 경우만 값 반환
+
+
+    for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 10; i++) {
+        console.log(`innerloop ${i}`)
+      }
+      console.log(`outerloop ${i}`)
+    }
+
+    for(let i=0;i<5;i++) {
+      const ld = document.getElementById("looper"); // grab the id
+      const div = document.createElement("div"); //create a div
+      div.innerText = "Hello There!" // populate the div
+      ld.appendChild(div) //append the div to ld
+      //document.querySelector("#looper").innerHTML = document.//querySelector("#looper").innerHTML + " hi there!";
+    }
+
+
+    //ajax
+    fetch('/js/mlb-team-2021.json')
+      .then((response) => {
+        return response.json();
+        if (!response.ok) {
+          throw new Error('400 or 500')
+        }
+      })
+      .then((result) => {
+        console.log(result);
+        function mlbTeams(teams) {
+          return `
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">${teams.Season} - ${teams.Name}, ${teams.Team}</h6>
+            </div>
+            <div class="card-body">
+                <h7 class="font-weight-bold text-gray-600">Leage Stats(${teams.Wins} - ${teams.Losses})</h7>
+                <dl class="d-flex justify-content-start flex-wrap mb-0 mt-2">
+                  <dt>Games: </dt>
+                  <dd>${teams.Games}</dd> 
+                  <dt class="ml-3">Hits: </dt>
+                  <dd>${teams.Hits}</dd>  
+                  <dt class="ml-3">HR: </dt>
+                  <dd>${teams.HomeRuns}</dd>  
+                  <dt class="ml-3">RBI: </dt>
+                  <dd>${teams.RunsBattedIn}</dd>  
+                  <dt class="ml-3">Runs: </dt>
+                  <dd>${teams.Runs}</dd>
+                  <dt class="ml-3">Strikeouts: </dt>
+                  <dd>${teams.Strikeouts}</dd>  
+                </dl>
+            </div>
+          </div>
+          `
+        }
+
+        document.getElementById('mlb-section').innerHTML = `
+          <div>${result.map(mlbTeams).join('')}</div>
+        `
+
+      })
+      .catch((error) => {
+        console.log(`에러? ${error}`)
+      });
+      
+      function mlbTeamData() {
+
+      }
+   </script>
+
+</body>
+
+</html>
