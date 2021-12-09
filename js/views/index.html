@@ -152,10 +152,12 @@
       })
       .then((result) => {
         console.log(result);
-        function mlbTeams(teams) {
+        console.log(result.length)
+        function mlbTeams(teams, index) {
           return `
           <div class="card shadow mb-4">
             <div class="card-header py-3">
+                <span>${(index) + 1}</span>
                 <h6 class="m-0 font-weight-bold text-primary">${teams.Season} - ${teams.Name}, ${teams.Team}</h6>
             </div>
             <div class="card-body">
@@ -180,16 +182,20 @@
         }
 
         document.getElementById('mlb-section').innerHTML = `
-          <div>${result.map(mlbTeams).join('')}</div>
-        `
+          <div>${result.map(mlbTeams).reverse().join('')}</div>
+        `;
 
       })
       .catch((error) => {
         console.log(`에러? ${error}`)
       });
       
-      function mlbTeamData() {
 
+
+      //향상된 for문
+      const arr = [0,11,4,3,21,5,9,7,8,6]
+      for(let item of arr.sort(function(a,b) {return a - b})) {
+        console.log(item)//배열
       }
    </script>
 
